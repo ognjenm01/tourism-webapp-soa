@@ -3,6 +3,8 @@ import { Tour } from '../model/tour.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 
 @Component({
@@ -16,10 +18,14 @@ export class TourComponent implements OnInit{
   public selectedTour: Tour;
   public mode : string = 'add';
   public renderTour: boolean = false;
+  user: User | undefined;
 
-  constructor(private tourAuthoringService: TourAuthoringService, private router: Router){}
+  constructor(private tourAuthoringService: TourAuthoringService, private authService: AuthService,  private router: Router){}
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
     this.getTours(); 
   }
 
@@ -49,9 +55,10 @@ export class TourComponent implements OnInit{
   }
 
   getTours(): void{
-    this.tourAuthoringService.getToursByAuthor().subscribe({
-      next: (response: PagedResults<Tour>) => {
-        this.tours = response.results;
+    if(this.user !== undefined)
+    this.tourAuthoringService.getToursByAuthor(this.user.id.toString()).subscribe({
+      next: (response: Tour[]) => {
+        this.tours = response;
       },
       error: () => {
         

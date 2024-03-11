@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -12,13 +12,15 @@ import { PublicEntityRequest } from './model/public-entity-request.model';
 import { KeypointEncounter } from './model/keypointEncounter.model';
 import { Location } from './model/location.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class TourAuthoringService {
 
   private readonly apiUrl = `${environment.apiHost}author`;
-
+  //                          https://localhost:44333/api/
+  private readonly newApiUrl = `http://localhost:8080/api/`;
   constructor(private http: HttpClient) { }
 
   getKeypoints(): Observable<PagedResults<Keypoint>>{
@@ -81,12 +83,12 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Tour>>(`${this.apiUrl}/tours`);
   }
 
-  getToursByAuthor() : Observable<PagedResults<Tour>> {
-    return this.http.get<PagedResults<Tour>>(`${this.apiUrl}/tours/author`);
+  getToursByAuthor(id: string) : Observable<Tour[]> {
+    return this.http.get<Tour[]>(`http://localhost:8080/api/tours/byauthor/${id}`);
   }
 
   getTourById(tourId: number): Observable<Tour>{
-    return this.http.get<Tour>(`${this.apiUrl}/tours/${tourId}`);
+    return this.http.get<Tour>(`http://localhost:8080/api/tours/${tourId}`);
   }
 
   deleteTour(id: number): Observable<Tour>{
@@ -94,7 +96,7 @@ export class TourAuthoringService {
   }
 
   addTour(newTour: Tour): Observable<Tour>{
-    return this.http.post<Tour>(`${this.apiUrl}/tours/`, newTour);
+    return this.http.post<Tour>('http://localhost:8080/api/tours', newTour);
   }
 
   addCustomTour(newTour: Tour): Observable<Tour>{
@@ -102,7 +104,7 @@ export class TourAuthoringService {
   }
 
   updateTour(updatedTour: Tour): Observable<Tour>{
-    return this.http.put<Tour>(`${this.apiUrl}/tours/${updatedTour.id}`, updatedTour);
+    return this.http.put<Tour>(`http://localhost:8080/api/tours`, updatedTour);
   }
 
   addPublicEntityRequestObject(newRequest: PublicEntityRequest): Observable<PublicEntityRequest>{

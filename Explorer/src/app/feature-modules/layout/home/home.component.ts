@@ -43,7 +43,7 @@ export class HomeComponent {
 
   loadArchivedAndPublishedTours(): void {
     this.marketplaceService.getArchivedAndPublishedTours().subscribe(tours => {
-      this.tours = tours.results;
+      this.tours = tours;
       this.isLoading = false;
     });
   }

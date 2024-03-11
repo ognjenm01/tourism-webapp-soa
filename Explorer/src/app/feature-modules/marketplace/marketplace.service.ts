@@ -185,10 +185,8 @@ export class MarketplaceService {
     );
   }
 
-  getArchivedAndPublishedTours(): Observable<PagedResults<Tour>> {
-    return this.http.get<PagedResults<Tour>>(
-      `${this.tourApiUrl}/arhived-published`,
-    );
+  getArchivedAndPublishedTours(): Observable<Tour[]> {
+    return this.http.post<Tour[]>(`http://localhost:8080/api/tours/bystatus`,['ARCHIVED', 'PUBLISHED']);
   }
 
   getReviewsByTour(tourId: number): Observable<PagedResults<TourReview>> {

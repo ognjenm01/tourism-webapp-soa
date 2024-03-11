@@ -6,6 +6,9 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Keypoint } from '../model/keypoint.model';
 import { RouteQuery } from 'src/app/shared/model/routeQuery.model';
 import { RouteInfo } from 'src/app/shared/model/routeInfo.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { TourTag } from '../model/tourtag.model';
 
 @Component({
   selector: 'xp-tour-form',
@@ -21,9 +24,10 @@ export class TourFormComponent implements OnChanges, OnInit{
   public selectedKeypoint: Keypoint;
   public mode: string = 'add';
   public routeQuery: RouteQuery;
+  user: User | undefined;
   @Output() selectedKeypointChanged = new EventEmitter<Keypoint>();
 
-  constructor(private tourAuthoringService: TourAuthoringService, private router: Router, private route: ActivatedRoute) {
+  constructor(private tourAuthoringService: TourAuthoringService, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     this.tour = { description: '', difficulty: TourDifficulty.EASY, status: Status.DRAFT, name: '', price: 0, transportType: TransportType.WALK, userId: 0, id:0}
     this.tourForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -36,6 +40,9 @@ export class TourFormComponent implements OnChanges, OnInit{
   }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
       this.route.paramMap.subscribe((params: ParamMap) => {
         this.tourId = Number(params.get('id'));
 
@@ -57,7 +64,7 @@ export class TourFormComponent implements OnChanges, OnInit{
     let currentStatus = this.tourId === 0 ? Status.DRAFT : this.tour.status;
     let tour: Tour = {
       id: this.tourId,
-      userId: -1,
+      userId: this.user === undefined? -1:this.user.id,
       name: this.tourForm.value.name || "",
       description: this.tourForm.value.description || "",
       price: this.tourForm.value.price,
@@ -135,12 +142,15 @@ export class TourFormComponent implements OnChanges, OnInit{
 
   addTag(): void {
     if(!this.tourForm.value.newTag) return;
-
-    this.tour.tags?.push(this.tourForm.value.newTag);
+    const tag : TourTag = {
+      tourId: 1,
+      tag: this.tourForm.value.newTag
+    }
+    this.tour.tags?.push(tag);
     this.tourForm.patchValue({newTag: ''});
   }
 
-  removeTag(tag: string): void {
+  removeTag(tag: TourTag): void {
     this.tour.tags?.splice(this.tour.tags?.indexOf(tag), 1);
   }
 }

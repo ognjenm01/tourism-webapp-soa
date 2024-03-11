@@ -1,5 +1,6 @@
 import { TourReview } from "../../tour-execution/model/tour-review.model";
 import { Keypoint } from "./keypoint.model";
+import { TourTag } from "./tourtag.model";
 
 export enum TourDifficulty {
     EASY = 'EASY',
@@ -35,7 +36,7 @@ export interface Tour {
     difficulty: TourDifficulty,
     transportType: TransportType,
     status: Status,
-    tags?: string[],
+    tags?: TourTag[],
     statusUpdateTime?: Date,
     keypoints?: Keypoint[],
     tourReviews?: TourReview[],
