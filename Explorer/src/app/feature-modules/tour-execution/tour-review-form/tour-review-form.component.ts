@@ -6,7 +6,7 @@ import { TourReviewString } from '../model/tour-review-string.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
-
+import { ImageLink } from '../model/image-link.model';
 @Component({
   selector: 'xp-tour-review-form',
   templateUrl: './tour-review-form.component.html',
@@ -37,19 +37,40 @@ export class TourReviewFormComponent implements OnChanges {
     rating: new FormControl('', [Validators.required]),
     comment: new FormControl('', [Validators.required]),
     visitDate: new FormControl('', [Validators.required]),
-    imageLinks: new FormControl('', [Validators.required])
+    imageLinksString: new FormControl('')
+    //imageLinks: new FormControl('', [Validators.required])
   })
 
   addTourReview(): void {
   
-    const tourReview: TourReviewString = {
-      rating: Number(this.tourReviewForm.value.rating),
+    let ImageLinks: ImageLink[] = [];
+    let strings = this.tourReviewForm.value.imageLinksString
+    let id = this.radioClicked(this.selectedTour)
+    alert(strings)
+    alert(id)
+    if(strings !== null && strings !== undefined && id !== undefined && id !== null)
+    {
+      alert("BBBBBBB")
+      strings.split("\n").forEach(s => {
+        alert(s)
+        ImageLinks.push(
+          {
+            tourReviewId: Number(id),
+            link: s
+          }
+        )
+      })
+    }
+
+    const tourReview: TourReview = {
+      rating: this.tourReviewForm.value.rating as string,
       comment: this.tourReviewForm.value.comment || "",
       visitDate: new Date(this.tourReviewForm.value.visitDate as string).toISOString().toString(),
       ratingDate: new Date().toISOString(),
-      imageLinks: this.tourReviewForm.value.imageLinks?.split('\n') as string[],
-      tourId: this.radioClicked(this.selectedTour) as string | undefined,
-      userId: localStorage.getItem('loggedId')??'1'
+      imageLinks:  ImageLinks,
+      tourId: this.radioClicked(this.selectedTour) as number,
+      userId: Number(localStorage.getItem('loggedId'))??1,
+      imageLinksString: ""
     }
     
     this.clearFormFields();
@@ -63,7 +84,7 @@ export class TourReviewFormComponent implements OnChanges {
   }
 
   updateTourReview(): void {
-    const tourReview: TourReviewString = {
+    /*const tourReview: TourReviewString = {
       rating: Number(this.tourReviewForm.value.rating),
       comment: this.tourReviewForm.value.comment || "",
       visitDate: this.tourReviewForm.value.visitDate + "T00:00:00.000Z",
@@ -81,14 +102,14 @@ export class TourReviewFormComponent implements OnChanges {
         this.tourReviewUpdated.emit();
         alert('Successfully updated tour review!');
       }
-    });
+    });*/
   }
 
   clearFormFields(): void {
     this.tourReviewForm.value.rating = "";
     this.tourReviewForm.value.comment = "";
     this.tourReviewForm.value.visitDate = "";
-    this.tourReviewForm.value.imageLinks = "";
+    //this.tourReviewForm.value.imageLinks = "";
   }
 
   getTours(): void {

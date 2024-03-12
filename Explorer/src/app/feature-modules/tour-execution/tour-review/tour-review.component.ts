@@ -29,8 +29,8 @@ export class TourReviewComponent implements OnInit {
 
   getTourReviews(): void {
     this.service.getTourReviews().subscribe({
-      next: (result: PagedResults<TourReview>) => {
-        this.tourReview = result.results;
+      next: (result: TourReview[]) => {
+        this.tourReview = result;
       },
       error: (err: any) => {
         console.log(err)

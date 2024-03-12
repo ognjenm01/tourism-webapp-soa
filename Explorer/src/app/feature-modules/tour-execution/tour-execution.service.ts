@@ -17,12 +17,12 @@ export class TourExecutionService {
 
   constructor(private http: HttpClient) { }
 
-  getTourReviews(): Observable<PagedResults<TourReview>> {
-    return this.http.get<PagedResults<TourReview>>(`${environment.apiHost}tourexecution/tourreview/`);
+  getTourReviews(): Observable<TourReview[]> {
+    return this.http.get<TourReview[]>(`http://localhost:8080/api/tourreview`);
   }
 
-  addTourReview(tourreview: TourReviewString): Observable<TourReviewString> {
-    return this.http.post<TourReviewString>(`${environment.apiHost}tourexecution/tourreview/`, tourreview);
+  addTourReview(tourreview: TourReview): Observable<TourReview> {
+    return this.http.post<TourReview>(`http://localhost:8080/api/tourreview`, tourreview);
   }
 
   updateTourReview(tourreview: TourReviewString): Observable<TourReviewString> {
