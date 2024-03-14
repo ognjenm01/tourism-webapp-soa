@@ -23,7 +23,7 @@
                 <td>{{rev.ratingDate | date:'MM/dd/yyyy'}}</td>
                 <td>
                     <div class="review-img">
-                        <img *ngFor="let i of rev.imageLinks" src="{{i}}" height="100" width="100">
+                        <img *ngFor="let i of rev.imageLinks" src="{{i.link}}" height="100" width="100">
                     </div>
                 </td>
                 <td>
