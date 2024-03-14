@@ -43,7 +43,7 @@ export class KeypointFormComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    this.getPublicKeypoints();
+    //this.getPublicKeypoints();
   }
 
   ngOnChanges(): void {

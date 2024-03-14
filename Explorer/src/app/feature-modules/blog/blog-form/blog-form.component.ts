@@ -85,8 +85,8 @@ export class BlogFormComponent implements OnChanges, OnInit {
         this.selectedTour = res;
       });
 
-      this.tourAuthoringService.getKeypointsByTour(this.tourProgress.tourId as number).subscribe((res: PagedResults<Keypoint>) => {
-        this.selectedKeypoints = res.results;
+      this.tourAuthoringService.getKeypointsByTour(this.tourProgress.tourId as number).subscribe((res: Keypoint[]) => {
+        this.selectedKeypoints = res;
       });
     }
   }

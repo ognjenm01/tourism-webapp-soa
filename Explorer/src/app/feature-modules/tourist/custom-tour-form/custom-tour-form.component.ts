@@ -98,7 +98,7 @@ export class CustomTourFormComponent {
 
   getTourKeypoints(): void{
     this.tourAuthoringService.getKeypointsByTour(this.tourId).subscribe(res => {
-      this.keypoints = res.results;
+      this.keypoints = res;
       this.routeQuery = {
         keypoints: this.keypoints,
         transportType: this.tour.transportType

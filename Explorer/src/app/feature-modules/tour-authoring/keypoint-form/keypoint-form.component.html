@@ -40,7 +40,7 @@
                 <input matInput formControlName="position" type="number" min="1"/>
             </mat-form-field>
     
-            <button color="primary" type="submit" (click)="saveKeypoint()" mat-raised-button [disabled]="tourId===0 || !keypointForm.valid">
+            <button color="primary" type="submit" (click)="saveKeypoint()" mat-raised-button [disabled]="!keypointForm.valid">
                 <span *ngIf="mode === 'add'">Add new keypoint</span>
                 <span *ngIf="mode === 'edit'">Update keypoint</span>
             </button>

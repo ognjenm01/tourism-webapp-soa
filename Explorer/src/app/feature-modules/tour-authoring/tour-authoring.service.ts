@@ -27,8 +27,8 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Keypoint>>(`${this.apiUrl}/keypoints`);
   }
 
-  getKeypointsByTour(tourId: number): Observable<PagedResults<Keypoint>>{
-    return this.http.get<PagedResults<Keypoint>>(`${this.apiUrl}/keypoints/tour/${tourId}`);
+  getKeypointsByTour(tourId: number): Observable<Keypoint[]>{
+    return this.http.get<Keypoint[]>(`http://localhost:8080/api/keypoints/tour/${tourId}`);
   }
 
   deleteKeypoint(id: number): Observable<Keypoint>{
@@ -36,7 +36,7 @@ export class TourAuthoringService {
   }
 
   addKeypoint(newKeypoint: Keypoint): Observable<Keypoint>{
-    return this.http.post<Keypoint>(`${this.apiUrl}/keypoints`, newKeypoint);
+    return this.http.post<Keypoint>(`http://localhost:8080/api/keypoints`, newKeypoint);
   }
 
   updateKeypoint(updatedKeypoint: Keypoint): Observable<Keypoint>{
@@ -104,7 +104,7 @@ export class TourAuthoringService {
   }
 
   updateTour(updatedTour: Tour): Observable<Tour>{
-    return this.http.put<Tour>(`http://localhost:8080/api/tours`, updatedTour);
+    return this.http.put<Tour>(`http://localhost:8080/api/tours/${updatedTour.id}`, updatedTour);
   }
 
   addPublicEntityRequestObject(newRequest: PublicEntityRequest): Observable<PublicEntityRequest>{

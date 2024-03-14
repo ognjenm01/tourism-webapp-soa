@@ -47,14 +47,26 @@ export class TourFormComponent implements OnChanges, OnInit{
         this.tourId = Number(params.get('id'));
 
         if(this.tourId !== 0){
-          this.tourAuthoringService.getTourById(this.tourId).subscribe((res: Tour) => {
-            this.tour = res;
-            this.tourForm.patchValue(this.tour);
-            
-            this.getTourKeypoints();
-          });
+          this.loadTourWithKeypoint()
         }
       });
+  }
+
+  loadTourWithKeypoint() {
+    this.tourAuthoringService.getTourById(this.tourId).subscribe((res: Tour) => {
+      this.tour = res;
+      this.tourForm.patchValue(this.tour);
+      
+      this.getTourKeypoints();
+    }
+    );
+  }
+
+  loadTour() {
+    this.tourAuthoringService.getTourById(this.tourId).subscribe((res: Tour) => {
+      this.tour = res;
+    }
+    );
   }
 
   ngOnChanges(): void {
@@ -112,7 +124,7 @@ export class TourFormComponent implements OnChanges, OnInit{
 
   getTourKeypoints(): void{
     this.tourAuthoringService.getKeypointsByTour(this.tourId).subscribe(res => {
-      this.keypoints = res.results;
+      this.keypoints = res;
       this.routeQuery = {
         keypoints: this.keypoints,
         transportType: this.tour.transportType
@@ -122,6 +134,7 @@ export class TourFormComponent implements OnChanges, OnInit{
   }
 
   selectKeypoint(event: Keypoint): void{
+    if(this.tour !== null || this.tour !== undefined) 
     this.selectedKeypoint = event;
     this.selectedKeypointChanged.emit();
     this.mode = 'edit';
@@ -134,7 +147,9 @@ export class TourFormComponent implements OnChanges, OnInit{
 
       this.tourAuthoringService.updateTour(this.tour).subscribe({
         next: (updatedTour) => { 
-          this.tour = updatedTour;
+          //FIXME :)
+          //this.tour = updatedTour;
+          this.loadTour()
         }
       });
      }

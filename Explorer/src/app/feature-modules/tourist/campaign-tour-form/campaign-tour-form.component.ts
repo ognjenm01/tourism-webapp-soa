@@ -119,7 +119,7 @@ export class CampaignTourFormComponent implements OnInit {
 
   getTourKeypoints(): void{
     this.tourAuthoringService.getKeypointsByTour(this.tourId as number).subscribe(res => {
-      this.newTour.keypoints = res.results;
+      this.newTour.keypoints = res;
      
       this.routeQuery = {
         keypoints: this.keypoints,
