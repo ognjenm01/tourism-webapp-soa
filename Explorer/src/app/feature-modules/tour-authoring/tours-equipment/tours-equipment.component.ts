@@ -30,7 +30,7 @@ export class ToursEquipmentComponent implements OnInit {
 
   loadEquipmentData() {
     this.tourAuthoringService.getEquipment().subscribe(pagedResults => {
-      this.allEquipment = pagedResults.results;
+      this.allEquipment = pagedResults;
       if (this.tour && this.tour.id) {
         this.tourAuthoringService.getEquipmentForTour(this.tour.id).subscribe(pagedResults => {
           this.selectedEquipment = pagedResults;

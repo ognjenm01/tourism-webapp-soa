@@ -63,20 +63,20 @@ export class TourAuthoringService {
     return this.http.put<Object>(`${this.apiUrl}/objects/${updatedObject.id}`, updatedObject);
   }
   
-  getEquipment(): Observable<PagedResults<Equipment>> {
-    return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'administration/equipment')
+  getEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`http://localhost:8080/api/equipment`)
   }
 
   addEquipmentToTour(tourEquipment: TourEquipment): Observable<TourEquipment> {
-    return this.http.post<TourEquipment>(`${this.apiUrl}/tour-equipment/add`, tourEquipment);
+    return this.http.post<TourEquipment>(`http://localhost:8080/api/tourequipment`, tourEquipment);
   }
 
-  getEquipmentForTour(tourId: number): Observable<Array<Equipment>> {
-    return this.http.get<Array<Equipment>>(`${this.apiUrl}/tour-equipment/${tourId}`);
+  getEquipmentForTour(tourId: number): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`http://localhost:8080/api/equipment/tour/${tourId}`);
   }
 
   removeEquipmentFromTour(tourEquipment: TourEquipment): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/tour-equipment/remove`, tourEquipment);
+    return this.http.post<void>(`http://localhost:8080/api/tourequipment/delete`, tourEquipment);
   }
   
   getTours() : Observable<PagedResults<Tour>> {

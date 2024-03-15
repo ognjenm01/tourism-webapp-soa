@@ -73,8 +73,8 @@ export class BlogFormComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(){
-    this.tourAuthoringService.getEquipment().subscribe((res: PagedResults<Equipment>)=> {
-      this.allEquipment = res.results;
+    this.tourAuthoringService.getEquipment().subscribe((res: Equipment[])=> {
+      this.allEquipment = res;
     })
     this.GetTourAndKeypoints();
   }
