@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Keypoint } from '../model/keypoint.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PublicEntityRequest } from '../model/public-entity-request.model';
+import { Tour } from '../model/tour.model';
 
 @Component({
   selector: 'xp-keypoint',
@@ -14,6 +15,7 @@ export class KeypointComponent implements OnInit{
   @Output() keypointSelected = new EventEmitter<Keypoint>();
   @Input() keypoints : Keypoint[];
   @Input() isCustom : Boolean = false;
+  @Input() tour : Tour;
   public selectedKeypoint: Keypoint;
   publicEntityRequest: PublicEntityRequest;
   newPublicEntityRequest: PublicEntityRequest;
@@ -27,6 +29,7 @@ export class KeypointComponent implements OnInit{
 
   deleteKeypoint(id: number): void{
     if(window.confirm('Are you sure that you want to delete this keypoint?')){
+      this.tour.keypoints = this.tour.keypoints?.filter(k => k.id !== id);
       this.tourAuthoringService.deleteKeypoint(id).subscribe({
         next: () => {
           if(!this.isCustom){

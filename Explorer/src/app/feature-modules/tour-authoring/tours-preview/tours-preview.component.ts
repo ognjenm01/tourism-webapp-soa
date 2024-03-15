@@ -20,7 +20,7 @@ export class ToursPreviewComponent implements OnInit{
   
   
   getTours(): void {
-    this.tourAuthoringService.getTours().subscribe(pagedResults => this.tours = pagedResults.results);
+    this.tourAuthoringService.getTours().subscribe(pagedResults => this.tours = pagedResults);
   }
 
   onEditClicked(tour: Tour): void{

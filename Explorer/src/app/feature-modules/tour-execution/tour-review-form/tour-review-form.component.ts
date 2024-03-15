@@ -114,8 +114,8 @@ export class TourReviewFormComponent implements OnChanges {
 
   getTours(): void {
     this.tourService.getTours().subscribe({
-      next: (result: PagedResults<Tour>) => {
-        this.tours = result.results;
+      next: (result: Tour[]) => {
+        this.tours = result;
       },
       error: (err: any) => {
         console.log(err)

@@ -17,7 +17,7 @@
     <div>
         <h1>Keypoints information</h1>
         <h4>(Edit keypoint to add encounter)</h4>
-        <xp-keypoint [keypoints]="keypoints" (keypointDeleted)="getTourKeypoints()" (keypointSelected)="selectKeypoint($event)"></xp-keypoint>
+        <xp-keypoint [tour]="tour" [keypoints]="keypoints" (keypointDeleted)="getTourKeypoints()" (keypointSelected)="selectKeypoint($event)"></xp-keypoint>
     </div> 
 </div>
 <hr>
@@ -95,7 +95,7 @@
         </form>
     </div>
     <div *ngIf="tourId !== 0" style="width: 80%;">
-        <xp-keypoint-form [tourId]="tourId" [routeQuery]="routeQuery" [keypointsCount]="keypoints.length"
+        <xp-keypoint-form [tourId]="tourId" [tour]="tour" [routeQuery]="routeQuery" [keypointsCount]="keypoints.length"
         [mode]="mode" [selectedKeypoint]="selectedKeypoint" (keypointsUpdated)="getTourKeypoints()" (routeFound)="setTourRoute($event)"></xp-keypoint-form>
         <br>
         <div *ngIf="mode === 'edit'">

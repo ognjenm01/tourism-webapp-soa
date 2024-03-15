@@ -147,8 +147,6 @@ export class TourFormComponent implements OnChanges, OnInit{
 
       this.tourAuthoringService.updateTour(this.tour).subscribe({
         next: (updatedTour) => { 
-          //FIXME :)
-          //this.tour = updatedTour;
           this.loadTour()
         }
       });

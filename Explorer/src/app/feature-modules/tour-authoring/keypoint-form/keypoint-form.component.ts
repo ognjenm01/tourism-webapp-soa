@@ -6,6 +6,7 @@ import { RouteQuery } from 'src/app/shared/model/routeQuery.model';
 import { RouteInfo } from 'src/app/shared/model/routeInfo.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Location } from '../model/location.model';
+import { Tour } from '../model/tour.model';
 
 @Component({
   selector: 'xp-keypoint-form',
@@ -18,6 +19,7 @@ export class KeypointFormComponent implements OnChanges, OnInit {
   @Output() routeFound = new EventEmitter<RouteInfo>();
 
   @Input() tourId: number;
+  @Input() tour: Tour;
   @Input() routeQuery: RouteQuery;
   @Input() selectedKeypoint: Keypoint;
   @Input() keypointsCount: number = 0;
@@ -43,6 +45,7 @@ export class KeypointFormComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    //FIXME Public keypoints
     //this.getPublicKeypoints();
   }
 
@@ -81,6 +84,16 @@ export class KeypointFormComponent implements OnChanges, OnInit {
         });
       }else if( this.mode === 'edit'){
         keypoint.id = this.selectedKeypoint.id;
+        
+        let i = 0;
+        if(this.tour.keypoints !== undefined) {
+        this.tour.keypoints.forEach(kp => {
+            if(kp.id === keypoint.id)
+              this.tour.keypoints![i] = keypoint;
+            i+=1;
+          })
+        }
+        
         this.tourAuthoringService.updateKeypoint(keypoint).subscribe({
           next: () => {
             if(this.locationChanged){

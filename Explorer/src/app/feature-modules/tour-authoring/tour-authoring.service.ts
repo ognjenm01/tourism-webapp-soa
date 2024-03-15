@@ -31,16 +31,16 @@ export class TourAuthoringService {
     return this.http.get<Keypoint[]>(`http://localhost:8080/api/keypoints/tour/${tourId}`);
   }
 
-  deleteKeypoint(id: number): Observable<Keypoint>{
-    return this.http.delete<Keypoint>(`${this.apiUrl}/keypoints/${id}`);
+  deleteKeypoint(id: number) {
+    return this.http.delete<Keypoint>(`http://localhost:8080/api/keypoints/${id}`);
   }
 
-  addKeypoint(newKeypoint: Keypoint): Observable<Keypoint>{
+  addKeypoint(newKeypoint: Keypoint) {
     return this.http.post<Keypoint>(`http://localhost:8080/api/keypoints`, newKeypoint);
   }
 
-  updateKeypoint(updatedKeypoint: Keypoint): Observable<Keypoint>{
-    return this.http.put<Keypoint>(`${this.apiUrl}/keypoints/${updatedKeypoint.id}`, updatedKeypoint);
+  updateKeypoint(updatedKeypoint: Keypoint) {
+    return this.http.put<Keypoint>(`http://localhost:8080/api/keypoints`, updatedKeypoint);
   }
 
   getPublicKeypoints(): Observable<PagedResults<Keypoint>>{
@@ -79,8 +79,8 @@ export class TourAuthoringService {
     return this.http.post<void>(`${this.apiUrl}/tour-equipment/remove`, tourEquipment);
   }
   
-  getTours() : Observable<PagedResults<Tour>> {
-    return this.http.get<PagedResults<Tour>>(`${this.apiUrl}/tours`);
+  getTours() : Observable<Tour[]> {
+    return this.http.get<Tour[]>(`http://localhost:8080/api/tours`);
   }
 
   getToursByAuthor(id: string) : Observable<Tour[]> {
@@ -91,6 +91,7 @@ export class TourAuthoringService {
     return this.http.get<Tour>(`http://localhost:8080/api/tours/${tourId}`);
   }
 
+  //FIXME
   deleteTour(id: number): Observable<Tour>{
     return this.http.delete<Tour>(`${this.apiUrl}/tours/${id}`);
   }
