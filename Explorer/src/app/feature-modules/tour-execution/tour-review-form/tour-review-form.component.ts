@@ -70,7 +70,8 @@ export class TourReviewFormComponent implements OnChanges {
       imageLinks:  ImageLinks,
       tourId: this.radioClicked(this.selectedTour) as number,
       userId: Number(localStorage.getItem('loggedId'))??1,
-      imageLinksString: ""
+      imageLinksString: "",
+      userInfo: {firstname: "", lastname: ""}
     }
     
     this.clearFormFields();

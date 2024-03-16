@@ -1,4 +1,5 @@
 import { ImageLink } from "./image-link.model";
+import { UserInfo } from "./user-info.model";
 
 export interface TourReview {
     id? : number,
@@ -9,5 +10,6 @@ export interface TourReview {
     imageLinks: ImageLink[],
     imageLinksString: string,
     tourId: number,
-    userId: number
+    userId: number,
+    userInfo: UserInfo
 }
