@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TouristPosition } from '../model/tourist-position.model';
 import { TourExecutionService } from '../tour-execution.service';
 import { MarkerPosition } from 'src/app/shared/model/markerPosition.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 @Component({
   selector: 'xp-tourist-position',
@@ -13,15 +15,20 @@ export class TouristPositionComponent implements OnInit {
   public touristPosition: TouristPosition;
   public mode: string = 'add';
   public touristMapPosition: MarkerPosition;
+  user: User | undefined;
 
-  constructor(private service: TourExecutionService) { }
+  constructor(private service: TourExecutionService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
     this.getPosition();
   }
 
   getPosition(): void {
-    this.service.getTouristPosition().subscribe({
+    if(this.user !== undefined)
+    this.service.getTouristPosition(this.user.id.toString()).subscribe({
       next: (result: TouristPosition) => { 
         this.touristPosition = result;
         this.touristMapPosition = {
@@ -32,14 +39,15 @@ export class TouristPositionComponent implements OnInit {
       },
       error: () => { 
         this.mode = 'add';
-      }
+      },
     });
   }
 
   updateTouristPosition(event: number[]): void {
     this.touristPosition = {
       latitude: event[0],
-      longitude: event[1]
+      longitude: event[1],
+      userId: this.user?.id
     }
   }
 

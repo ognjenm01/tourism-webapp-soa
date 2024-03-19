@@ -5,7 +5,7 @@ import { MarketplaceService } from '../marketplace.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { OrderItem } from '../model/order-item.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
-import { TourProgress } from '../../tour-execution/model/tour-progress.model';
+import { TourExecutionStatus, TourProgress } from '../../tour-execution/model/tour-progress.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CartSuccessComponent } from '../dialogs/cart-success/cart-success.component';
 import { CartWarningComponent } from '../dialogs/cart-warning/cart-warning.component';
@@ -86,11 +86,26 @@ export class TourCardComponent implements OnInit, OnChanges {
     });
   }
 
+  poludi_ivice() {
+    alert("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+  }
+
   startTour(tourId?: number): void {
     this.marketplaceService.checkIfPurchased(tourId || 0).subscribe({
       next: (purchased: boolean) => {
-        if (purchased) {
-          this.tourExecutionService.startTour(tourId || 0).subscribe({
+        
+        //FIXME
+        //if (purchased) {
+        if(true) { 
+        const p : TourProgress = {
+          tourId: tourId,
+          status: TourExecutionStatus.IN_PROGRESS,
+          currentKeyPoint: 0,
+          lastActivity: new Date(),
+          startTime: new Date(),
+          tour : this.tour
+        }
+        this.tourExecutionService.startTour(p).subscribe({
             next: (result: TourProgress) => {
               alert("Tour started, check it out in active tour section!");
             },

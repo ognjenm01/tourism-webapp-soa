@@ -37,24 +37,24 @@ export class TourExecutionService {
     return this.http.get<PagedResults<TourReview>>(`${environment.apiHost}tourexecution/tourreview/tour/` + tourId);
   }
 
-  getTouristPosition(): Observable<TouristPosition> {
-    return this.http.get<TouristPosition>(`${environment.apiHost}tourist/position`);
+  getTouristPosition(userid: string): Observable<TouristPosition> {
+    return this.http.get<TouristPosition>(`http://localhost:8080/api/touristposition/byuser/${userid}`);
   }
 
   addTouristPosition(touristPosition: TouristPosition): Observable<TouristPosition> {
-    return this.http.post<TouristPosition>(`${environment.apiHost}tourist/position`, touristPosition);
+    return this.http.post<TouristPosition>(`http://localhost:8080/api/touristposition`, touristPosition);
   }
 
   updateTouristPosition(touristPosition: TouristPosition): Observable<TouristPosition> {
-    return this.http.put<TouristPosition>(`${environment.apiHost}tourist/position`, touristPosition);
+    return this.http.put<TouristPosition>(`http://localhost:8080/api/touristposition/${touristPosition.id}`, touristPosition);
   }
 
   getActiveTour(): Observable<TourProgress> {
     return this.http.get<TourProgress>(`${environment.apiHost}tourexecution/activeTour`);
   }
 
-  startTour(tourId: number): Observable<TourProgress> {
-    return this.http.post<TourProgress>(`${environment.apiHost}tourexecution/start/` + tourId, null);
+  startTour(p: TourProgress): Observable<TourProgress> {
+    return this.http.post<TourProgress>(`http://localhost:8080/api/tourprogress`, p);
   }
 
   abandonTour(): Observable<TourProgress> {

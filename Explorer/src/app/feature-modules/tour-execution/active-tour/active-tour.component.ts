@@ -18,6 +18,8 @@ import { MarketplaceService } from '../../marketplace/marketplace.service';
 import { Category, Object } from '../../tour-authoring/model/object.model';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 enum PointOfInterestType {
   publicObjects = 1,
@@ -83,12 +85,15 @@ export class ActiveTourComponent implements OnInit, OnDestroy {
 
   public activeTab: string;
   public openImagePopup: boolean;
-
+  user: User | undefined;
   public mode: string = 'edit'; // add or edit (copied from tourist-position window)
 
-  constructor(private service: TourExecutionService, private tourAuthoringService: TourAuthoringService, private encounterService: EncountersService, private marketplaceService: MarketplaceService, private messageService: MessageService) { }
+  constructor(private authService: AuthService, private service: TourExecutionService, private tourAuthoringService: TourAuthoringService, private encounterService: EncountersService, private marketplaceService: MarketplaceService, private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
     this.getActiveTour();
     this.updatePosition();
     this.refreshMap = true;
@@ -336,9 +341,9 @@ export class ActiveTourComponent implements OnInit, OnDestroy {
   }
 
   updatePosition(): void {
-    if (this.requiredEncounters.length !== 0) {
+    if (this.requiredEncounters.length !== 0 && this.user !== undefined) {
       // Do something with requiredEncounters if needed
-      this.service.getTouristPosition().subscribe({
+      this.service.getTouristPosition(this.user.id.toString()).subscribe({
           next: (result: TouristPosition) =>{
             if(this.currentPosition?.longitude !== result.longitude || this.currentPosition.latitude !== result.latitude){
               this.touristPosition = result;
@@ -473,7 +478,8 @@ export class ActiveTourComponent implements OnInit, OnDestroy {
   }
 
   getPosition(): void {
-    this.service.getTouristPosition().subscribe({
+    if(this.user !== undefined)
+    this.service.getTouristPosition(this.user.id.toString()).subscribe({
       next: (result: TouristPosition) => { 
         this.touristPosition = result;
         this.currentPosition = {
