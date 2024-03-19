@@ -35,7 +35,7 @@ export class BlogListDisplayComponent implements OnInit {
   getBlogs(): void {
     this.showCreationForm = false;
     this.blogs = [];
-    this.service.getBlogsWithStatus().subscribe({
+    this.service.getBlogs().subscribe({
       next: (result: PagedResult<Blog>) => {
         for(let b of result.results)
         {
