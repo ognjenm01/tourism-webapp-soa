@@ -20,7 +20,7 @@
         </div>
     </div> 
 
-    <div class="blogs-container">
+    <div *ngIf="showCreationForm" class="blogs-container">
         <table>
             <thead>
                 <tr>
@@ -63,8 +63,13 @@
                       </mat-accordion>
                   </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button (click)="createNewBlog()" mat-raised-button color="accent">New Blog</button>
+                    </td>
+                </tr>
               </tbody>
         </table>
         </div>
     </div>
-    <!--<xp-blog-form id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog"></xp-blog-form>-->
+    <xp-blog-form id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog"></xp-blog-form>

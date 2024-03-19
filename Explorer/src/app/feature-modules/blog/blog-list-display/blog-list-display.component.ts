@@ -19,6 +19,7 @@ export class BlogListDisplayComponent implements OnInit {
   public allBlogStatus: BlogStatus[] = [];
   public selectedBlogStatus: BlogStatus[] = [];
   public existingColors: string[] = [];
+  public showCreationForm : Boolean = false;
 
   ngOnInit(): void {
       this.selectedBlog = {
@@ -140,5 +141,9 @@ export class BlogListDisplayComponent implements OnInit {
     }
     else
       this.blogs = this.allBlogs;
+  }
+
+  createNewBlog(){
+    this.showCreationForm = !(this.showCreationForm);
   }
 }
