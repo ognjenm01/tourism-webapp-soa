@@ -20,7 +20,7 @@
         </div>
     </div> 
 
-    <div *ngIf="showCreationForm" class="blogs-container">
+    <div *ngIf="!showCreationForm" class="blogs-container">
         <table>
             <thead>
                 <tr>
@@ -71,5 +71,7 @@
               </tbody>
         </table>
         </div>
+        <div style="width: 90%; height: auto;">
+            <xp-blog-form *ngIf="showCreationForm" id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog" [creationMode]="true"></xp-blog-form>
+        </div>
     </div>
-    <xp-blog-form id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog"></xp-blog-form>

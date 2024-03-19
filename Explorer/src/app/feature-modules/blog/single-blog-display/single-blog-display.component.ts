@@ -1,10 +1,8 @@
 import { Component, EventEmitter, OnInit, Input } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Blog, BlogSystemStatus } from '../model/blog.model';
-import { BlogStatus } from '../model/blogstatus-model';
+import { Blog } from '../model/blog.model';
 import { Rating } from '../model/rating.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'xp-single-blog-display',

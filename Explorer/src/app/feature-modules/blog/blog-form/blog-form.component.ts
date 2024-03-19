@@ -2,11 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BlogService } from '../blog.service';
 import { Blog, BlogSystemStatus } from '../model/blog.model';
-import { toArray } from 'rxjs';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
-import { TourEquipment } from '../../tour-authoring/model/tour_equipment';
-import { PagedResult } from '../shared/model/paged-result.model';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Equipment } from '../../administration/model/equipment.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TourProgress } from '../../tour-execution/model/tour-progress.model';
@@ -89,6 +85,25 @@ export class BlogFormComponent implements OnChanges, OnInit {
         this.selectedKeypoints = res;
       });
     }
+  }
+
+  addBlog1(): void {
+    const blog: Blog = {
+      title: this.titleForm.value.title || "",
+      description: this.descriptionForm.value.description || "",
+      creationDate: new Date().toISOString().split('T')[0] as string,
+      imageLinks: this.imageLinksForm.value.imageLinks?.split('\n') as string[],
+      systemStatus: BlogSystemStatus.PUBLISHED as BlogSystemStatus || "",
+      blogRatings : [],
+      blogStatuses : []
+    }
+
+    this.blogService.addBlog(blog).subscribe({
+      next: (_) => {
+        this.blogUpdated.emit();
+        location.reload();
+      }
+    });
   }
 
   addBlog(): void {
