@@ -28,6 +28,7 @@ export class BlogFormComponent implements OnChanges, OnInit {
   allEquipment: Equipment[];
   selection = new SelectionModel<any>(true, []);
   titleForm: FormGroup
+  public userId: number
 
   constructor(private blogService: BlogService, private tourAuthoringService: TourAuthoringService) { 
     this.titleForm = new FormGroup({
@@ -69,6 +70,7 @@ export class BlogFormComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(){
+    this.userId = parseInt(localStorage.getItem('loggedId')??'2');
     this.tourAuthoringService.getEquipment().subscribe((res: Equipment[])=> {
       this.allEquipment = res;
     })
@@ -87,18 +89,19 @@ export class BlogFormComponent implements OnChanges, OnInit {
     }
   }
 
-  addBlog1(): void {
+  addBlogSoa(): void {
     const blog: Blog = {
+      creatorId: this.userId,
       title: this.titleForm.value.title || "",
       description: this.descriptionForm.value.description || "",
-      creationDate: new Date().toISOString().split('T')[0] as string,
-      imageLinks: this.imageLinksForm.value.imageLinks?.split('\n') as string[],
+      creationDate: new Date().toISOString(),
+      imageLinks: this.imageLinksForm.value.imageLinks || "",
       systemStatus: BlogSystemStatus.PUBLISHED as BlogSystemStatus || "",
-      blogRatings : [],
-      blogStatuses : []
+      //blogRatings : [],
+      //blogStatuses : [],
     }
 
-    this.blogService.addBlog(blog).subscribe({
+   this.blogService.addBlog(blog).subscribe({
       next: (_) => {
         this.blogUpdated.emit();
         location.reload();
@@ -111,7 +114,7 @@ export class BlogFormComponent implements OnChanges, OnInit {
       title: this.titleForm.value.title || "",
       description: this.descriptionForm.value.description || "",
       creationDate: new Date().toISOString().split('T')[0] as string,
-      imageLinks: this.imageLinksForm.value.imageLinks?.split('\n') as string[],
+      imageLinks: this.imageLinksForm.value.imageLinks as string,
       systemStatus: BlogSystemStatus.PUBLISHED as BlogSystemStatus || ""
     }
     this.GetTourAndKeypoints();
@@ -164,11 +167,11 @@ export class BlogFormComponent implements OnChanges, OnInit {
     }
     if(this.blogForm.value.imageLinks?.length != 1)
     {
-      blog.imageLinks = this.blogForm.value.imageLinks?.split(',') as unknown as string[];
+      blog.imageLinks = this.blogForm.value.imageLinks as string;
     }
     else
     {
-      blog.imageLinks = this.blogForm.value.imageLinks as unknown as string[];
+      blog.imageLinks = this.blogForm.value.imageLinks as string;
     }
 
 

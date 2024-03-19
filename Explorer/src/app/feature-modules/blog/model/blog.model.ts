@@ -8,10 +8,11 @@ export enum BlogSystemStatus {
 }
 export interface Blog {
     id? : number,
+    creatorId?: number,
     title : string,
     description : string,
     creationDate : string,
-    imageLinks : string[],
+    imageLinks : string,
     blogRatings?:Rating[]
     systemStatus : BlogSystemStatus,
     blogStatuses?: BlogStatus[]

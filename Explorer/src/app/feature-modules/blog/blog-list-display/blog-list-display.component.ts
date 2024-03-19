@@ -26,7 +26,7 @@ export class BlogListDisplayComponent implements OnInit {
         title: '',
         description: '',
         creationDate: new Date().toISOString(),
-        imageLinks: [],
+        imageLinks: '',
         systemStatus: BlogSystemStatus.DRAFT,
       }
       this.getBlogs();

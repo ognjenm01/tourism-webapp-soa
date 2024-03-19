@@ -52,7 +52,7 @@ export class ActiveTourComponent implements OnInit, OnDestroy {
   newBlog: Blog = {
     title: '',
     description: '',
-    imageLinks: [],
+    imageLinks: '',
     creationDate: Date.now().toString(),
     systemStatus: BlogSystemStatus.DRAFT
   };
