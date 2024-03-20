@@ -156,6 +156,7 @@ export class TourFormComponent implements OnChanges, OnInit{
   addTag(): void {
     if(!this.tourForm.value.newTag) return;
     const tag : TourTag = {
+      id: 0,
       tourId: 1,
       tag: this.tourForm.value.newTag
     }
