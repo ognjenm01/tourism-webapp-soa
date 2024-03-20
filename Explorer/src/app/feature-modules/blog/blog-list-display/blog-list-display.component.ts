@@ -20,6 +20,7 @@ export class BlogListDisplayComponent implements OnInit {
   public selectedBlogStatus: BlogStatus[] = [];
   public existingColors: string[] = [];
   public showCreationForm : Boolean = false;
+  public creationMode : boolean = true
 
   ngOnInit(): void {
       this.selectedBlog = {
@@ -55,6 +56,8 @@ export class BlogListDisplayComponent implements OnInit {
   {
     blog.description = blog.description.replace('<br>','\n');
     this.selectedBlog = blog;
+    this.creationMode = false;
+    this.showCreationForm = true;
   }
 
   onDeleteClicked(blog: Blog): void
@@ -146,5 +149,6 @@ export class BlogListDisplayComponent implements OnInit {
 
   createNewBlog(){
     this.showCreationForm = !(this.showCreationForm);
+    this.creationMode = true;
   }
 }

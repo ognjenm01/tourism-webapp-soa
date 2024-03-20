@@ -45,12 +45,13 @@
                                                 </div>
                                             </td>
                                             <td style="min-width: 2%;max-width: 66% ;background-color: #F2F2F2;">
-                                                <button *ngIf="authService.user$.value.role == 'author'" (click)="onUpdateClicked(bl)" mat-icon-button>
+                                                <!--*ngIf="authService.user$.value.role == 'author'"-->
+                                                <button  (click)="onUpdateClicked(bl)" mat-icon-button>
                                                     <mat-icon [ngStyle]="{'color':'#5989DF'}">edit</mat-icon>
                                                 </button>
                                             </td>
                                             <td style="min-width: 2%;max-width: 66% ;background-color: #F2F2F2;">
-                                                <button *ngIf="authService.user$.value.role == 'author'" (click)="onDeleteClicked(bl)" color="accent" mat-icon-button>
+                                                <button (click)="onDeleteClicked(bl)" color="accent" mat-icon-button>
                                                     <mat-icon>delete</mat-icon>
                                                 </button>
                                             </td>
@@ -72,6 +73,6 @@
         </table>
         </div>
         <div style="width: 90%; height: auto;">
-            <xp-blog-form *ngIf="showCreationForm" id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog" [creationMode]="true"></xp-blog-form>
+            <xp-blog-form *ngIf="showCreationForm" id="blog-form-display" (blogUpdated)="getBlogs()" [selectedBlog]="selectedBlog" [creationMode]="creationMode"></xp-blog-form>
         </div>
     </div>
