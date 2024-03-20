@@ -21,30 +21,33 @@ export class SingleBlogDisplayComponent implements OnInit{
     rating: 'a'
   }
   public images : string[]
+  public userId : number
 
   constructor(private service: BlogService, private router: Router, private route: ActivatedRoute) {}
 
 ngOnInit(): void {
   this.route.paramMap.subscribe((params: ParamMap) => {
+    this.userId = parseInt(localStorage.getItem('loggedId')??'2');
     this.blogId = Number(params.get('id'));
 
     if(this.blogId !== 0){
       this.service.getBlog(this.blogId).subscribe((res: Blog) => {
         this.selectedBlog = res;
-        this.images = this.selectedBlog.imageLinks[0].split(',');
+        /*this.images = this.selectedBlog.imageLinks[0].split(',');
         this.images.forEach((value, index, array) => {
           if (value.includes('(') || value.includes(')')) {
             array[index] = value.replace(/[()]/g, '');
           }
-        });       
+        });       */
       });
     }
   });
 }
 
 rate(x:number): void{
+  this.rating.userId = this.userId;
   this.rating.blogId = this.blogId;
-  this.rating.creationTime = new Date().toISOString().split('T')[0];
+  this.rating.creationTime = new Date().toISOString();//.split('T')[0];
 
   if(x === 1){
     this.rating.rating = 'UPVOTE';
@@ -55,7 +58,7 @@ rate(x:number): void{
  
   this.service.addRating(this.rating).subscribe({
     next: (result: Blog) => {
-      this.selectedBlog.blogRatings = result.blogRatings;
+      //this.selectedBlog.blogRatings = result.blogRatings;
       this.ngOnInit();
     },
     error: (err: any) => {

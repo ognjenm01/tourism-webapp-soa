@@ -88,7 +88,7 @@
                 <mat-option value="CLOSED">Closed</mat-option>
             </mat-select>       
         </mat-form-field>
-
+<!--
         <mat-table id="equipment-list" [dataSource]="allEquipment" *ngIf="tourProgress">
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
@@ -111,6 +111,7 @@
     
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </mat-table>
+        </mat-table> -->
+        <button mat-raised-button color="accent" (click)="updateBlog()">Update</button>
     </form>
 </div>

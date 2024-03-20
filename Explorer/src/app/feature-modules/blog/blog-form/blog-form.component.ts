@@ -44,8 +44,6 @@ export class BlogFormComponent implements OnChanges, OnInit {
     status: new FormControl(''),
   });
 
-
-
   descriptionForm = new FormGroup({
     description: new FormControl('',Validators.required),
   });
