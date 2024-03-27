@@ -18,11 +18,11 @@ export class TourExecutionService {
   constructor(private http: HttpClient) { }
 
   getTourReviews(): Observable<TourReview[]> {
-    return this.http.get<TourReview[]>(`http://localhost:8080/api/tourreview`);
+    return this.http.get<TourReview[]>(`https://localhost:44333/api/tourexecution/tourreview`);
   }
 
   addTourReview(tourreview: TourReview): Observable<TourReview> {
-    return this.http.post<TourReview>(`http://localhost:8080/api/tourreview`, tourreview);
+    return this.http.post<TourReview>(`https://localhost:44333/api/tourexecution/tourreview/`, tourreview);
   }
 
   updateTourReview(tourreview: TourReviewString): Observable<TourReviewString> {
@@ -38,15 +38,15 @@ export class TourExecutionService {
   }
 
   getTouristPosition(userid: string): Observable<TouristPosition> {
-    return this.http.get<TouristPosition>(`http://localhost:8080/api/touristposition/byuser/${userid}`);
+    return this.http.get<TouristPosition>(`https://localhost:44333/api/tourexecution/position/${userid}`);
   }
 
   addTouristPosition(touristPosition: TouristPosition): Observable<TouristPosition> {
-    return this.http.post<TouristPosition>(`http://localhost:8080/api/touristposition`, touristPosition);
+    return this.http.post<TouristPosition>(`https://localhost:44333/api/tourexecution/position`, touristPosition);
   }
 
   updateTouristPosition(touristPosition: TouristPosition): Observable<TouristPosition> {
-    return this.http.put<TouristPosition>(`http://localhost:8080/api/touristposition/${touristPosition.id}`, touristPosition);
+    return this.http.put<TouristPosition>(`https://localhost:44333/api/tourexecution/position/${touristPosition.id}`, touristPosition);
   }
 
   getActiveTour(): Observable<TourProgress> {

@@ -186,7 +186,7 @@ export class MarketplaceService {
   }
 
   getArchivedAndPublishedTours(): Observable<Tour[]> {
-    return this.http.post<Tour[]>(`http://localhost:8080/api/tours/bystatus`,['ARCHIVED', 'PUBLISHED']);
+    return this.http.get<Tour[]>(`https://localhost:44333/api/marketplace/tours`);
   }
 
   getReviewsByTour(tourId: number): Observable<PagedResults<TourReview>> {

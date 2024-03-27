@@ -28,15 +28,15 @@ export class TourAuthoringService {
   }
 
   getKeypointsByTour(tourId: number): Observable<Keypoint[]>{
-    return this.http.get<Keypoint[]>(`http://localhost:8080/api/keypoints/tour/${tourId}`);
+    return this.http.get<Keypoint[]>(`https://localhost:44333/api/author/keypoints/tour/${tourId}`);
   }
 
   deleteKeypoint(id: number) {
-    return this.http.delete<Keypoint>(`http://localhost:8080/api/keypoints/${id}`);
+    return this.http.delete<Keypoint>(`https://localhost:44333/api/author/keypoints/${id}`);
   }
 
   addKeypoint(newKeypoint: Keypoint) {
-    return this.http.post<Keypoint>(`http://localhost:8080/api/keypoints`, newKeypoint);
+    return this.http.post<Keypoint>(`https://localhost:44333/api/author/keypoints`, newKeypoint);
   }
 
   updateKeypoint(updatedKeypoint: Keypoint) {
@@ -64,31 +64,31 @@ export class TourAuthoringService {
   }
   
   getEquipment(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`http://localhost:8080/api/equipment`)
+    return this.http.get<Equipment[]>(`https://localhost:44333/api/administration/equipment`)
   }
 
   addEquipmentToTour(tourEquipment: TourEquipment): Observable<TourEquipment> {
-    return this.http.post<TourEquipment>(`http://localhost:8080/api/tourequipment`, tourEquipment);
+    return this.http.post<TourEquipment>(`https://localhost:44333/api/author/tour-equipment/add`, tourEquipment);
   }
 
   getEquipmentForTour(tourId: number): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`http://localhost:8080/api/equipment/tour/${tourId}`);
+    return this.http.get<Equipment[]>(`https://localhost:44333/api/author/tour-equipment/${tourId}`);
   }
 
   removeEquipmentFromTour(tourEquipment: TourEquipment): Observable<void> {
-    return this.http.post<void>(`http://localhost:8080/api/tourequipment/delete`, tourEquipment);
+    return this.http.post<void>(`https://localhost:44333/api/author/tour-equipment/remove`, tourEquipment);
   }
   
   getTours() : Observable<Tour[]> {
-    return this.http.get<Tour[]>(`http://localhost:8080/api/tours`);
+    return this.http.get<Tour[]>(`https://localhost:44333/api/author/tours`);
   }
 
   getToursByAuthor(id: string) : Observable<Tour[]> {
-    return this.http.get<Tour[]>(`http://localhost:8080/api/tours/byauthor/${id}`);
+    return this.http.get<Tour[]>(`https://localhost:44333/api/author/tours/byauthor/${id}`);
   }
 
   getTourById(tourId: number): Observable<Tour>{
-    return this.http.get<Tour>(`http://localhost:8080/api/tours/${tourId}`);
+    return this.http.get<Tour>(`https://localhost:44333/api/author/tours/${tourId}`);
   }
 
   //FIXME
@@ -97,7 +97,7 @@ export class TourAuthoringService {
   }
 
   addTour(newTour: Tour): Observable<Tour>{
-    return this.http.post<Tour>('http://localhost:8080/api/tours', newTour);
+    return this.http.post<Tour>('https://localhost:44333/api/author/tours', newTour);
   }
 
   addCustomTour(newTour: Tour): Observable<Tour>{
@@ -105,7 +105,7 @@ export class TourAuthoringService {
   }
 
   updateTour(updatedTour: Tour): Observable<Tour>{
-    return this.http.put<Tour>(`http://localhost:8080/api/tours/${updatedTour.id}`, updatedTour);
+    return this.http.put<Tour>(`https://localhost:44333/api/author/tours/${updatedTour.id}`, updatedTour);
   }
 
   addPublicEntityRequestObject(newRequest: PublicEntityRequest): Observable<PublicEntityRequest>{
