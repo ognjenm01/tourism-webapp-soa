@@ -7,7 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/env/environment';
 import { ChatMessage } from './model/chat-preview.model';
 import { MessageInput } from './model/message-input.model';
-
+import { FollowRequest } from './model/follow-request.model';
+import {PersonNode} from './model/person-node.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,28 +26,53 @@ export class ProfileService {
     return this.http.get<Profile>(`${environment.apiHost}profile/zelimdaumrem/${userId}`);
   }
 
-  getFollowers(): Observable<PagedResults<Profile>> {
-    return this.http.get<PagedResults<Profile>>(`${environment.apiHost}profile/followers`);
+  //TODO
+  getFollowers(id: number): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`http://localhost:4201/api/person/following/${id}`);
   }
 
-  getFollowing(): Observable<PagedResults<Profile>> {
-    return this.http.get<PagedResults<Profile>>(`${environment.apiHost}profile/following`);
+  //TODO
+  getFollowing(id: number): Observable<Profile[]> {
+    //return this.http.get<Profile[]>(`${environment.apiHost}profile/following`);
+    return this.http.get<Profile[]>(`http://localhost:4201/api/person/followers/${id}`);
   }
 
-  unfollow(followingId: number): Observable<PagedResults<Profile>> {
-    return this.http.put<PagedResults<Profile>>(`${environment.apiHost}profile/unfollow`, followingId);
+    //TODO
+    getSuggested(id: number): Observable<Profile[]> {
+      //return this.http.get<Profile[]>(`${environment.apiHost}profile/following`);
+      return this.http.get<Profile[]>(`http://localhost:4201/api/person/suggest/${id}`);
+    }
+
+  //TODO
+  unfollow(request: FollowRequest): Observable<PagedResults<Profile>> {
+    return this.http.post<PagedResults<Profile>>(`http://localhost:4201/api/person/unfollow`, request);
   }
 
-  follow(followingId: number): Observable<PagedResults<Profile>> {
-    return this.http.put<PagedResults<Profile>>(`${environment.apiHost}profile/follow`, followingId);
+  //TODO
+  follow(request: FollowRequest): Observable<PagedResults<any>> {
+    //return this.http.put<PagedResults<Profile>>(`${environment.apiHost}profile/follow`, followingId);
+    return this.http.post<PagedResults<Profile>>(`http://localhost:4201/api/person/follow`, request);
+  }
+
+
+  getAllProfiles(): Observable<Profile[]> {
+    //return this.http.get<PagedResults<Profile>>(environment.apiHost + `profile/not-followed`);
+    return this.http.get<Profile[]>(`${environment.apiHost}profile/all`);
+  }
+  //TODO
+  createIfNotExist(request: PersonNode): Observable<PagedResults<any>> {
+    //return this.http.put<PagedResults<Profile>>(`${environment.apiHost}profile/follow`, followingId);
+    return this.http.post<PagedResults<Profile>>(`http://localhost:4201/api/person`, request);
   }
 
   updateProfile(userId: number, updatedProfile: Profile): Observable<Profile> {
     return this.http.put<Profile>(`${environment.apiHost}profile/${userId}`, updatedProfile);
   }
 
-  getProfiles(): Observable<PagedResults<Profile>> {
-    return this.http.get<PagedResults<Profile>>(environment.apiHost + `profile/not-followed`);
+  //TODO
+  getProfiles(id: number): Observable<Profile[]> {
+    //return this.http.get<PagedResults<Profile>>(environment.apiHost + `profile/not-followed`);
+    return this.http.get<Profile[]>(`http://localhost:4201/api/person/unfollowed/${id}`);
   }
 
   getPreviewChats(): Observable<ChatMessage[]>{

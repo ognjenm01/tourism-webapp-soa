@@ -4,6 +4,7 @@ import { ChatMessage } from '../model/chat-preview.model';
 import { Profile } from '../model/profile.model';
 import { FormControl } from '@angular/forms';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-chat-view',
@@ -23,13 +24,13 @@ export class ChatViewComponent implements OnInit {
   public selectedChatId: number = -1;
   public followers: Profile[] = [];
 
-  constructor(private profileService: ProfileService){}
+  constructor(private profileService: ProfileService, private auth: AuthService){}
 
   ngOnInit(): void {
     this.getChatPreviews();
 
-    this.profileService.getFollowers().subscribe(res => {
-      this.followers = res.results;
+    this.profileService.getFollowers(this.auth.user$.value.id).subscribe(res => {
+      this.followers = res;
     });
 
     this.followerFilterCtrl.valueChanges

@@ -5,6 +5,8 @@ import { ProfileService } from '../profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { FollowRequest } from '../model/follow-request.model';
+import { PersonNode } from '../model/person-node.model';
 
 @Component({
   selector: 'xp-profile',
@@ -26,8 +28,9 @@ export class ProfileComponent implements OnInit {
   followersActive: boolean = false;
   peopleActive: boolean = false;
 
-  followers: Profile[];
-  following: Profile[];
+  followers: Profile[] = [];
+  following: Profile[] = [];
+  suggestedProfile: Profile[] = [];
 
   profile: Profile = {
     name: '',
@@ -61,6 +64,37 @@ export class ProfileComponent implements OnInit {
     this.loadProfileFollowers();
     this.loadProfileFollowing();
     this.getProfiles();
+    this.loadSuggestions();
+    this.createNodes();
+  }
+
+  createNodes(){
+    this.service.getAllProfiles().subscribe({
+      next: (res : Profile[]) => {
+        res.forEach(p => {
+          let node : PersonNode = {
+            userId : p.userId,
+            name : p.name,
+            surname : p.surname,
+            email : p.email
+          }
+          this.service.createIfNotExist(node).subscribe({
+            next: (res : any) => {
+              console.log()
+            }
+          })
+        })
+      }
+    })
+    
+  }
+
+  loadSuggestions(){
+    this.service.getSuggested(this.auth.user$.value.id).subscribe({
+      next: (res: Profile[]) => {
+        this.suggestedProfile = res;
+      }
+    })
   }
 
   loadProfileData() {
@@ -90,9 +124,9 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfileFollowers() {
-    this.service.getFollowers().subscribe({
-      next: (data: PagedResults<Profile>) => {
-        this.followers = data.results;
+    this.service.getFollowers(this.auth.user$.value.id).subscribe({
+      next: (data: Profile[]) => {
+        this.followers = data;
       },
       error: (err: any) => {
         console.log(err);
@@ -101,9 +135,9 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfileFollowing() {
-    this.service.getFollowing().subscribe({
-      next: (data: PagedResults<Profile>) => {
-        this.following = data.results;
+    this.service.getFollowing(this.auth.user$.value.id).subscribe({
+      next: (data: Profile[]) => {
+        this.following = data;
       },
       error: (err: any) => {
         console.log(err);
@@ -112,9 +146,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getProfiles(): void {
-    this.service.getProfiles().subscribe({
-      next: (data: PagedResults<Profile>) => {
-        this.profilesToFollow = data.results;
+    this.service.getProfiles(this.auth.user$.value.id).subscribe({
+      next: (data: Profile[]) => {
+        this.profilesToFollow = data;
       },
       error: (err: any) => {
         console.log(err);
@@ -131,10 +165,17 @@ export class ProfileComponent implements OnInit {
   
 
   unfollow(followingId: number) {
-    this.service.unfollow(followingId).subscribe({
+    const request : FollowRequest = {
+      personId:   this.auth.user$.value.id,
+      followerId: followingId
+    }
+    this.service.unfollow(request).subscribe({
       next: (data: PagedResults<Profile>) => {
-        this.following = data.results;
+        //this.following = data.results;
         this.getProfiles();
+        this.loadProfileFollowers();
+        this.loadProfileFollowing();
+        this.loadSuggestions();
       },
       error: (err: any) => {
         console.log(err);
@@ -143,10 +184,19 @@ export class ProfileComponent implements OnInit {
   }
 
   follow(followingId: number) {
-    this.service.follow(followingId).subscribe({
+ 
+    const request : FollowRequest = {
+      personId:   this.auth.user$.value.id,
+      followerId: followingId
+    }
+
+    this.service.follow(request).subscribe({
       next: (data: PagedResults<Profile>) => {
-        this.following = data.results;
+        //this.following = data.results;
         this.getProfiles();
+        this.loadProfileFollowers();
+        this.loadProfileFollowing();
+        this.loadSuggestions();
       },
       error: (err: any) => {
         console.log(err);
